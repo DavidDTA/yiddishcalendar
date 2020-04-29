@@ -11,18 +11,28 @@ import Html.Styled.Attributes
 import Json.Decode
 
 
+type alias Model =
+    {}
+
+
 main =
     Browser.document
         { init = init
         , view = viewBody >> Browser.Document "Yiddish Calendar"
-        , update = always (always ( (), Cmd.none ))
+        , update = update
         , subscriptions = always Sub.none
         }
 
 
-init : Json.Decode.Value -> ( (), Cmd Never )
+init : Json.Decode.Value -> ( Model, Cmd Never )
 init _ =
-    ( (), Cmd.none )
+    ( {}, Cmd.none )
+
+
+update msg model =
+    ( model
+    , Cmd.none
+    )
 
 
 viewBody model =
@@ -107,22 +117,29 @@ colorButtonPress =
     Css.hex "#eaa0f6"
 
 
+colorButtonText =
+    Css.hex "#000000"
+
+
 durationReactionAnimation =
     120
 
 
+durationTransitionAnimation =
+    600
+
+
 viewButton text =
-    Html.Styled.button
+    Html.Styled.a
         [ Html.Styled.Attributes.css
             [ Css.padding (Css.px 12)
+            , Css.display Css.inlineBlock
             , Css.borderRadius (Css.px 8)
             , Css.backgroundColor colorButton
-            , Css.color Css.inherit
-            , Css.cursor Css.pointer
+            , Css.color colorButtonText
             , Css.outline Css.none
-            , Css.border Css.zero
             , Css.fontSize Css.large
-            , Css.fontFamily Css.inherit
+            , Css.textDecoration Css.none
             , Css.hover
                 [ Css.backgroundColor colorButtonHover
                 , Css.boxShadow4 Css.zero Css.zero (Css.px 6) colorButtonHover
@@ -140,6 +157,8 @@ viewButton text =
                 , Css.Transitions.backgroundColor durationReactionAnimation
                 ]
             ]
+        , Html.Styled.Attributes.target "_blank"
+        , Html.Styled.Attributes.href "mailto:balebos@yiddishcalendar.com"
         ]
         [ Html.Styled.text text ]
 
