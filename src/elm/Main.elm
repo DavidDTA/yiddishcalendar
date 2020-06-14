@@ -109,6 +109,10 @@ colorButton =
     Css.hex "#f9f9f9"
 
 
+colorButtonFocus =
+    Css.hex "#fadafd"
+
+
 colorButtonHover =
     Css.hex "#f4b4fb"
 
@@ -140,11 +144,11 @@ viewButton text =
             , Css.outline Css.none
             , Css.fontSize Css.large
             , Css.textDecoration Css.none
-            , Css.hover
-                [ Css.backgroundColor colorButtonHover
-                , Css.boxShadow4 Css.zero Css.zero (Css.px 6) colorButtonHover
-                ]
             , Css.focus
+                [ Css.backgroundColor colorButtonFocus
+                , Css.boxShadow4 Css.zero Css.zero (Css.px 6) colorButtonFocus
+                ]
+            , Css.hover
                 [ Css.backgroundColor colorButtonHover
                 , Css.boxShadow4 Css.zero Css.zero (Css.px 6) colorButtonHover
                 ]
