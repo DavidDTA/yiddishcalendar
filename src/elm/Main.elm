@@ -12,7 +12,14 @@ import Json.Decode
 
 
 type alias Model =
-    {}
+    { events : List Event
+    }
+
+
+type alias Event =
+    { title : String
+    , description : String
+    }
 
 
 main =
@@ -26,7 +33,10 @@ main =
 
 init : Json.Decode.Value -> ( Model, Cmd Never )
 init _ =
-    ( {}, Cmd.none )
+    ( { events = List.repeat 66 { title = "Test Event", description = "Description" }
+      }
+    , Cmd.none
+    )
 
 
 update msg model =
@@ -60,7 +70,7 @@ viewBody model =
     ]
 
 
-viewContents _ =
+viewContents { events } =
     Html.Styled.div
         [ Html.Styled.Attributes.css
             [ Css.height (Css.pct 100)
@@ -68,20 +78,16 @@ viewContents _ =
             , Css.flexDirection Css.column
             ]
         ]
-        [ viewPaddedContainer Title Center [ Html.Styled.text "Yiddish Calendar" ]
-        , Html.Styled.iframe
-            [ Html.Styled.Attributes.src "https://calendar.google.com/calendar/embed?src=kk0idu5gnn5thvoccqrocvmaag%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=0&showDate=0&showPrint=0&showCalendars=0&mode=AGENDA"
-            , Html.Styled.Attributes.css
-                [ Css.border Css.zero
-                , Css.width (Css.pct 100)
-                , Css.height (Css.pct 100)
-                , Css.display Css.block
-                ]
-            ]
-            []
+        [ viewPaddedContainer
+            H1
+            Center
+            [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
+            [ Html.Styled.text "Yiddish Calendar" ]
+        , viewCalendar events
         , viewPaddedContainer
-            Subtitle
+            H3
             Start
+            [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
             [ Html.Styled.text "Something Missing?"
             , Html.Styled.span
                 [ Html.Styled.Attributes.css
@@ -95,9 +101,26 @@ viewContents _ =
         ]
 
 
+viewCalendar events =
+    Html.Styled.div
+        [ Html.Styled.Attributes.css
+            [ Css.height (Css.pct 100)
+            , Css.overflowY Css.scroll
+            ]
+        ]
+        (List.concatMap viewEvent events)
+
+
+viewEvent { title, description } =
+    [ viewPaddedContainer Normal Start [] [ Html.Styled.div [] [ Html.Styled.text title ], Html.Styled.text description ]
+    ]
+
+
 type FontSize
-    = Title
-    | Subtitle
+    = H1
+    | H2
+    | H3
+    | Normal
 
 
 type Alignment
@@ -167,19 +190,25 @@ viewButton text =
         [ Html.Styled.text text ]
 
 
-viewPaddedContainer fontSize alignment elements =
+viewPaddedContainer fontSize alignment attrs elements =
     Html.Styled.div
-        [ Html.Styled.Attributes.css
+        ([ Html.Styled.Attributes.css
             [ Css.width (Css.pct 100)
             , Css.boxSizing Css.borderBox
             , Css.padding (Css.px 16)
             , Css.fontSize
                 (case fontSize of
-                    Title ->
+                    H1 ->
                         Css.xxLarge
 
-                    Subtitle ->
+                    H2 ->
+                        Css.xLarge
+
+                    H3 ->
                         Css.large
+
+                    Normal ->
+                        Css.medium
                 )
             , Css.textAlign
                 (case alignment of
@@ -190,5 +219,7 @@ viewPaddedContainer fontSize alignment elements =
                         Css.start
                 )
             ]
-        ]
+         ]
+            ++ attrs
+        )
         elements
