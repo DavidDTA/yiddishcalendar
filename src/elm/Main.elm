@@ -121,11 +121,11 @@ colorButtonText =
     Css.hex "#000000"
 
 
-durationReactionAnimation =
+durationAnimationReaction =
     120
 
 
-durationTransitionAnimation =
+durationAnimationTransition =
     600
 
 
@@ -153,8 +153,8 @@ viewButton text =
                 , Css.boxShadow4 Css.zero Css.zero (Css.px 4) colorButtonPress
                 ]
             , Css.Transitions.transition
-                [ Css.Transitions.boxShadow durationReactionAnimation
-                , Css.Transitions.backgroundColor durationReactionAnimation
+                [ Css.Transitions.boxShadow durationAnimationReaction
+                , Css.Transitions.backgroundColor durationAnimationReaction
                 ]
             ]
         , Html.Styled.Attributes.target "_blank"
