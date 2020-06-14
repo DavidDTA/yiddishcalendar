@@ -80,7 +80,7 @@ viewContents { events } =
         ]
         [ viewPaddedContainer
             [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
-            [ Html.Styled.span
+            [ Html.Styled.div
                 [ Html.Styled.Attributes.css
                     [ Css.fontSize Css.xxLarge
                     , Css.textAlign Css.center
