@@ -79,16 +79,24 @@ viewContents { events } =
             ]
         ]
         [ viewPaddedContainer
-            H1
-            Center
             [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
-            [ Html.Styled.text "Yiddish Calendar" ]
+            [ Html.Styled.span
+                [ Html.Styled.Attributes.css
+                    [ Css.fontSize Css.xxLarge
+                    , Css.textAlign Css.center
+                    ]
+                ]
+                [ Html.Styled.text "Yiddish Calendar" ]
+            ]
         , viewCalendar events
         , viewPaddedContainer
-            H3
-            Start
             [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
-            [ Html.Styled.text "Something Missing?"
+            [ Html.Styled.span
+                [ Html.Styled.Attributes.css
+                    [ Css.fontSize Css.large
+                    ]
+                ]
+                [ Html.Styled.text "Something Missing?" ]
             , Html.Styled.span
                 [ Html.Styled.Attributes.css
                     [ Css.width (Css.px 16)
@@ -112,20 +120,19 @@ viewCalendar events =
 
 
 viewEvent { title, description } =
-    [ viewPaddedContainer Normal Start [] [ Html.Styled.div [] [ Html.Styled.text title ], Html.Styled.text description ]
+    [ viewPaddedContainer
+        []
+        [ Html.Styled.div
+            [ Html.Styled.Attributes.css
+                [ Css.fontSize
+                    Css.xLarge
+                ]
+            ]
+            [ Html.Styled.text title ]
+        , viewVerticalPadding
+        , Html.Styled.text description
+        ]
     ]
-
-
-type FontSize
-    = H1
-    | H2
-    | H3
-    | Normal
-
-
-type Alignment
-    = Center
-    | Start
 
 
 colorButton =
@@ -190,34 +197,16 @@ viewButton text =
         [ Html.Styled.text text ]
 
 
-viewPaddedContainer fontSize alignment attrs elements =
+viewVerticalPadding =
+    Html.Styled.div [ Html.Styled.Attributes.css [ Css.paddingTop (Css.px 16) ] ] []
+
+
+viewPaddedContainer attrs elements =
     Html.Styled.div
         ([ Html.Styled.Attributes.css
             [ Css.width (Css.pct 100)
             , Css.boxSizing Css.borderBox
             , Css.padding (Css.px 16)
-            , Css.fontSize
-                (case fontSize of
-                    H1 ->
-                        Css.xxLarge
-
-                    H2 ->
-                        Css.xLarge
-
-                    H3 ->
-                        Css.large
-
-                    Normal ->
-                        Css.medium
-                )
-            , Css.textAlign
-                (case alignment of
-                    Center ->
-                        Css.center
-
-                    Start ->
-                        Css.start
-                )
             ]
          ]
             ++ attrs
