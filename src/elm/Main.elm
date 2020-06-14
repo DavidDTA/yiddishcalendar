@@ -117,7 +117,7 @@ colorButtonHover =
     Css.hex "#f4b4fb"
 
 
-colorButtonPress =
+colorButtonActive =
     Css.hex "#eaa0f6"
 
 
@@ -153,8 +153,8 @@ viewButton text =
                 , Css.boxShadow4 Css.zero Css.zero (Css.px 6) colorButtonHover
                 ]
             , Css.active
-                [ Css.backgroundColor colorButtonPress
-                , Css.boxShadow4 Css.zero Css.zero (Css.px 4) colorButtonPress
+                [ Css.backgroundColor colorButtonActive
+                , Css.boxShadow4 Css.zero Css.zero (Css.px 4) colorButtonActive
                 ]
             , Css.Transitions.transition
                 [ Css.Transitions.boxShadow durationAnimationReaction
