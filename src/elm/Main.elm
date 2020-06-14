@@ -47,26 +47,30 @@ update msg model =
 
 viewBody model =
     [ Html.Styled.toUnstyled
-        (Css.Global.global
-            [ Css.Global.html
-                [ Css.height (Css.pct 100)
-                , Css.overflow Css.hidden
+        (Html.Styled.div
+            [ Html.Styled.Attributes.css [ Css.height (Css.pct 100) ]
+            ]
+            [ Css.Global.global
+                [ Css.Global.html
+                    [ Css.height (Css.pct 100)
+                    , Css.overflow Css.hidden
+                    ]
+                , Css.Global.body
+                    [ Css.height (Css.pct 100)
+                    , Css.margin Css.zero
+                    , Css.overflow Css.scroll
+                    , Css.fontFamilies [ "Arimo", Css.sansSerif.value ]
+                    ]
                 ]
-            , Css.Global.body
-                [ Css.height (Css.pct 100)
-                , Css.margin Css.zero
-                , Css.overflow Css.scroll
-                , Css.fontFamilies [ "Arimo", Css.sansSerif.value ]
+            , Html.Styled.node "link"
+                [ Html.Styled.Attributes.href "https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=block"
+                , Html.Styled.Attributes.rel "stylesheet"
+                , Html.Styled.Attributes.type_ "text/css"
                 ]
+                []
+            , viewContents model
             ]
         )
-    , Html.node "link"
-        [ Html.Attributes.href "https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=block"
-        , Html.Attributes.rel "stylesheet"
-        , Html.Attributes.type_ "text/css"
-        ]
-        []
-    , Html.Styled.toUnstyled (viewContents model)
     ]
 
 
