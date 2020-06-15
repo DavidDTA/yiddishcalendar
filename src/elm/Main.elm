@@ -4,21 +4,26 @@ import Browser
 import Css
 import Css.Global
 import Css.Transitions
-import Html
-import Html.Attributes
 import Html.Styled
 import Html.Styled.Attributes
 import Json.Decode
+import Result.Extra
 
 
 type alias Model =
-    { events : List Event
+    { admin : Maybe Admin
+    , events : List Event
     }
 
 
 type alias Event =
     { title : String
     , description : String
+    }
+
+
+type alias Admin =
+    { facebookAppToken : Maybe String
     }
 
 
@@ -32,8 +37,14 @@ main =
 
 
 init : Json.Decode.Value -> ( Model, Cmd Never )
-init _ =
-    ( { events = List.repeat 66 { title = "Test Event", description = "Description" }
+init flags =
+    let
+        admin =
+            Json.Decode.decodeValue decodeAdmin flags
+                |> Result.Extra.unwrap Nothing Just
+    in
+    ( { admin = admin
+      , events = List.repeat 66 { title = "Test Event", description = "Description" }
       }
     , Cmd.none
     )
@@ -43,6 +54,17 @@ update msg model =
     ( model
     , Cmd.none
     )
+
+
+decodeAdmin =
+    let
+        decodeAdminObject =
+            Json.Decode.map
+                Admin
+                (Json.Decode.maybe (Json.Decode.at [ "facebookAppToken" ] Json.Decode.string))
+    in
+    Json.Decode.string
+        |> Json.Decode.andThen (Json.Decode.decodeString decodeAdminObject >> Result.withDefault { facebookAppToken = Nothing } >> Json.Decode.succeed)
 
 
 viewBody model =
