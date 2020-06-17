@@ -96,7 +96,7 @@ viewBody model =
     ]
 
 
-viewContents { events } =
+viewContents { admin, events } =
     Html.Styled.div
         [ Html.Styled.Attributes.css
             [ Css.height (Css.pct 100)
@@ -117,21 +117,25 @@ viewContents { events } =
         , viewCalendar events
         , viewPaddedContainer
             [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
-            [ Html.Styled.span
+            ([ Html.Styled.span
                 [ Html.Styled.Attributes.css
                     [ Css.fontSize Css.large
                     ]
                 ]
                 [ Html.Styled.text "Something Missing?" ]
-            , Html.Styled.span
-                [ Html.Styled.Attributes.css
-                    [ Css.width (Css.px 16)
-                    , Css.display Css.inlineBlock
-                    ]
-                ]
-                []
-            , viewButton "LET ME KNOW"
-            ]
+             , viewHorizontalInlinePadding
+             , viewButton "LET ME KNOW"
+             ]
+                ++ (case admin of
+                        Nothing ->
+                            []
+
+                        Just _ ->
+                            [ viewHorizontalInlinePadding
+                            , viewButton "ADMIN"
+                            ]
+                   )
+            )
         ]
 
 
@@ -225,6 +229,16 @@ viewButton text =
 
 viewVerticalPadding =
     Html.Styled.div [ Html.Styled.Attributes.css [ Css.paddingTop (Css.px 16) ] ] []
+
+
+viewHorizontalInlinePadding =
+    Html.Styled.span
+        [ Html.Styled.Attributes.css
+            [ Css.width (Css.px 16)
+            , Css.display Css.inlineBlock
+            ]
+        ]
+        []
 
 
 viewPaddedContainer attrs elements =
