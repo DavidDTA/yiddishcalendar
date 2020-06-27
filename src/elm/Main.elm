@@ -70,10 +70,11 @@ decodeAdmin =
 viewBody model =
     [ Html.Styled.toUnstyled
         (Html.Styled.div
-            [ Html.Styled.Attributes.css [ Css.height (Css.pct 100) ] ]
+            []
             [ globalCss
             , fontStylesheet
             , viewContents model
+            , viewNav model
             ]
         )
     ]
@@ -90,12 +91,8 @@ fontStylesheet =
 
 globalCss =
     Css.Global.global
-        [ Css.Global.html
-            [ Css.height (Css.pct 100)
-            ]
-        , Css.Global.body
-            [ Css.height (Css.pct 100)
-            , Css.margin Css.zero
+        [ Css.Global.body
+            [ Css.margin Css.zero
             , Css.property "overscroll-behavior" "none"
             , Css.fontFamilies [ "Arimo", Css.sansSerif.value ]
             ]
@@ -104,12 +101,7 @@ globalCss =
 
 viewContents { admin, events } =
     Html.Styled.div
-        [ Html.Styled.Attributes.css
-            [ Css.height (Css.pct 100)
-            , Css.displayFlex
-            , Css.flexDirection Css.column
-            ]
-        ]
+        []
         [ viewPaddedContainer
             [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
             [ Html.Styled.div
@@ -120,38 +112,41 @@ viewContents { admin, events } =
                 ]
                 [ Html.Styled.text "Yiddish Calendar" ]
             ]
-        , viewPaddedContainer
-            [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
-            ([ Html.Styled.span
-                [ Html.Styled.Attributes.css
-                    [ Css.fontSize Css.large
-                    ]
-                ]
-                [ Html.Styled.text "Something Missing?" ]
-             , viewHorizontalInlinePadding
-             , viewButton "LET ME KNOW"
-             ]
-                ++ (case admin of
-                        Nothing ->
-                            []
-
-                        Just _ ->
-                            [ viewHorizontalInlinePadding
-                            , viewButton "ADMIN"
-                            ]
-                   )
-            )
         , viewCalendar events
         ]
 
 
-viewCalendar events =
-    Html.Styled.div
+viewNav { admin } =
+    viewPaddedContainer
         [ Html.Styled.Attributes.css
-            [ Css.height (Css.pct 100)
-            , Css.overflowY Css.scroll
+            [ Css.position Css.sticky
+            , Css.bottom Css.zero
             ]
         ]
+        ([ Html.Styled.span
+            [ Html.Styled.Attributes.css
+                [ Css.fontSize Css.large
+                ]
+            ]
+            [ Html.Styled.text "Something Missing?" ]
+         , viewHorizontalInlinePadding
+         , viewButton "LET ME KNOW"
+         ]
+            ++ (case admin of
+                    Nothing ->
+                        []
+
+                    Just _ ->
+                        [ viewHorizontalInlinePadding
+                        , viewButton "ADMIN"
+                        ]
+               )
+        )
+
+
+viewCalendar events =
+    Html.Styled.div
+        []
         (List.concatMap viewEvent events)
 
 
