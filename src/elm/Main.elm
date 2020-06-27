@@ -44,13 +44,13 @@ init flags =
                 |> Result.Extra.unwrap Nothing Just
     in
     ( { admin = admin
-      , events = List.repeat 66 { title = "Test Event", description = "Description" }
+      , events = List.repeat 8 { title = "Test Event", description = "Description" }
       }
     , Cmd.none
     )
 
 
-update msg model =
+update _ model =
     ( model
     , Cmd.none
     )
@@ -70,30 +70,36 @@ decodeAdmin =
 viewBody model =
     [ Html.Styled.toUnstyled
         (Html.Styled.div
-            [ Html.Styled.Attributes.css [ Css.height (Css.pct 100) ]
-            ]
-            [ Css.Global.global
-                [ Css.Global.html
-                    [ Css.height (Css.pct 100)
-                    , Css.overflow Css.hidden
-                    ]
-                , Css.Global.body
-                    [ Css.height (Css.pct 100)
-                    , Css.margin Css.zero
-                    , Css.overflow Css.scroll
-                    , Css.fontFamilies [ "Arimo", Css.sansSerif.value ]
-                    ]
-                ]
-            , Html.Styled.node "link"
-                [ Html.Styled.Attributes.href "https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=block"
-                , Html.Styled.Attributes.rel "stylesheet"
-                , Html.Styled.Attributes.type_ "text/css"
-                ]
-                []
+            [ Html.Styled.Attributes.css [ Css.height (Css.pct 100) ] ]
+            [ globalCss
+            , fontStylesheet
             , viewContents model
             ]
         )
     ]
+
+
+fontStylesheet =
+    Html.Styled.node "link"
+        [ Html.Styled.Attributes.href "https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=block"
+        , Html.Styled.Attributes.rel "stylesheet"
+        , Html.Styled.Attributes.type_ "text/css"
+        ]
+        []
+
+
+globalCss =
+    Css.Global.global
+        [ Css.Global.html
+            [ Css.height (Css.pct 100)
+            ]
+        , Css.Global.body
+            [ Css.height (Css.pct 100)
+            , Css.margin Css.zero
+            , Css.property "overscroll-behavior" "none"
+            , Css.fontFamilies [ "Arimo", Css.sansSerif.value ]
+            ]
+        ]
 
 
 viewContents { admin, events } =
@@ -114,7 +120,6 @@ viewContents { admin, events } =
                 ]
                 [ Html.Styled.text "Yiddish Calendar" ]
             ]
-        , viewCalendar events
         , viewPaddedContainer
             [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
             ([ Html.Styled.span
@@ -136,6 +141,7 @@ viewContents { admin, events } =
                             ]
                    )
             )
+        , viewCalendar events
         ]
 
 
