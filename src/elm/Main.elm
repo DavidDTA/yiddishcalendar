@@ -116,7 +116,7 @@ viewTitle =
 
 viewSomethingMissing =
     viewPaddedContainer
-        []
+        [ Html.Styled.Attributes.css [ Css.textAlign Css.end ] ]
         [ Html.Styled.span
             [ Html.Styled.Attributes.css
                 [ Css.fontSize Css.large
@@ -200,7 +200,10 @@ durationAnimationTransition =
 viewButton text =
     Html.Styled.a
         [ Html.Styled.Attributes.css
-            [ Css.padding (Css.px 12)
+            [ Css.paddingLeft (Css.px 24)
+            , Css.paddingRight (Css.px 24)
+            , Css.paddingTop (Css.px 16)
+            , Css.paddingBottom (Css.px 16)
             , Css.display Css.inlineBlock
             , Css.borderRadius (Css.px 8)
             , Css.backgroundColor colorButton
@@ -208,6 +211,7 @@ viewButton text =
             , Css.outline Css.none
             , Css.fontSize Css.large
             , Css.textDecoration Css.none
+            , Css.lineHeight (Css.num 1)
             , Css.focus
                 [ Css.backgroundColor colorButtonFocus
                 , Css.boxShadow4 Css.zero Css.zero (Css.px 6) colorButtonFocus
