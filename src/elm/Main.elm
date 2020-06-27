@@ -75,6 +75,7 @@ viewBody model =
             , fontStylesheet
             , viewTitle
             , viewCalendar model
+            , viewSomethingMissing
             , viewNav model
             ]
         )
@@ -113,31 +114,36 @@ viewTitle =
         ]
 
 
-viewNav { admin } =
+viewSomethingMissing =
     viewPaddedContainer
-        [ Html.Styled.Attributes.css
-            [ Css.position Css.sticky
-            , Css.bottom Css.zero
-            ]
-        ]
-        ([ Html.Styled.span
+        []
+        [ Html.Styled.span
             [ Html.Styled.Attributes.css
                 [ Css.fontSize Css.large
                 ]
             ]
             [ Html.Styled.text "Something Missing?" ]
-         , viewHorizontalInlinePadding
-         , viewButton "LET ME KNOW"
-         ]
-            ++ (case admin of
-                    Nothing ->
-                        []
+        , viewHorizontalInlinePadding
+        , viewButton "LET ME KNOW"
+        ]
 
-                    Just _ ->
-                        [ viewHorizontalInlinePadding
-                        , viewButton "ADMIN"
-                        ]
-               )
+
+viewNav { admin } =
+    Html.Styled.div
+        [ Html.Styled.Attributes.css
+            [ Css.position Css.sticky
+            , Css.bottom Css.zero
+            , Css.textAlign Css.center
+            ]
+        ]
+        (case admin of
+            Nothing ->
+                []
+
+            Just _ ->
+                [ viewButton "ADMIN"
+                , viewVerticalPadding
+                ]
         )
 
 
