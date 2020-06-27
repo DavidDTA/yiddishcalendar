@@ -73,7 +73,8 @@ viewBody model =
             []
             [ globalCss
             , fontStylesheet
-            , viewContents model
+            , viewTitle
+            , viewCalendar model
             , viewNav model
             ]
         )
@@ -99,20 +100,16 @@ globalCss =
         ]
 
 
-viewContents { admin, events } =
-    Html.Styled.div
-        []
-        [ viewPaddedContainer
-            [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
-            [ Html.Styled.div
-                [ Html.Styled.Attributes.css
-                    [ Css.fontSize Css.xxLarge
-                    , Css.textAlign Css.center
-                    ]
+viewTitle =
+    viewPaddedContainer
+        [ Html.Styled.Attributes.css [ Css.flexShrink (Css.num 0) ] ]
+        [ Html.Styled.div
+            [ Html.Styled.Attributes.css
+                [ Css.fontSize Css.xxLarge
+                , Css.textAlign Css.center
                 ]
-                [ Html.Styled.text "Yiddish Calendar" ]
             ]
-        , viewCalendar events
+            [ Html.Styled.text "Yiddish Calendar" ]
         ]
 
 
@@ -144,7 +141,7 @@ viewNav { admin } =
         )
 
 
-viewCalendar events =
+viewCalendar { events } =
     Html.Styled.div
         []
         (List.concatMap viewEvent events)
