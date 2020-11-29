@@ -116,14 +116,14 @@ viewTitle =
 
 viewSomethingMissing =
     viewPaddedContainer
-        [ Html.Styled.Attributes.css [ Css.textAlign Css.end ] ]
+        [ Html.Styled.Attributes.css [ Css.textAlign Css.center ] ]
         [ Html.Styled.span
             [ Html.Styled.Attributes.css
                 [ Css.fontSize Css.large
                 ]
             ]
             [ Html.Styled.text "Something Missing?" ]
-        , viewHorizontalInlinePadding
+        , viewVerticalPadding
         , viewButton "LET ME KNOW"
         ]
 
