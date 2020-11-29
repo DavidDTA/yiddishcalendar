@@ -1,5 +1,5 @@
 live:
-	rm -r build
+	rm -rf build
 	mkdir build
 	cp -r src/static/* build
 	elm-live src/elm/Main.elm --open --dir=./build -- --output=build/-/index.js --debug
