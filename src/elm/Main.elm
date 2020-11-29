@@ -194,7 +194,7 @@ durationAnimationReaction =
 
 
 durationAnimationTransition =
-    600
+    240
 
 
 viewButton text =
