@@ -2,7 +2,7 @@ live:
 	rm -rf build
 	mkdir build
 	cp -r src/static/* build
-	elm-live src/elm/Main.elm --open --dir=./build -- --output=build/-/index.js --debug
+	elm-live src/elm/Main.elm --open --dir=./build --port=8002 -- --output=build/-/index.js --debug
 
 publish:
 	rm -r docs
