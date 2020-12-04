@@ -63,7 +63,7 @@ decodeAdmin =
                 Admin
                 (Json.Decode.maybe (Json.Decode.at [ "facebookAppToken" ] Json.Decode.string))
     in
-    Json.Decode.string
+    Json.Decode.field "admin" Json.Decode.string
         |> Json.Decode.andThen (Json.Decode.decodeString decodeAdminObject >> Result.withDefault { facebookAppToken = Nothing } >> Json.Decode.succeed)
 
 
