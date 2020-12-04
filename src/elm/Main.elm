@@ -6,6 +6,7 @@ import Css.Global
 import Css.Transitions
 import Html.Styled
 import Html.Styled.Attributes
+import Html.Styled.Events
 import Json.Decode
 import Result.Extra
 
@@ -27,6 +28,10 @@ type alias Admin =
     }
 
 
+type Msg
+    = Nop
+
+
 main =
     Browser.document
         { init = init
@@ -36,7 +41,7 @@ main =
         }
 
 
-init : Json.Decode.Value -> ( Model, Cmd Never )
+init : Json.Decode.Value -> ( Model, Cmd Msg )
 init flags =
     let
         admin =
@@ -124,7 +129,7 @@ viewSomethingMissing =
             ]
             [ Html.Styled.text "Something Missing?" ]
         , viewVerticalPadding
-        , viewButton "LET ME KNOW"
+        , viewButton "LET ME KNOW" (Href "mailto:balebos@yiddishcalendar.com")
         ]
 
 
@@ -141,7 +146,7 @@ viewNav { admin } =
                 []
 
             Just _ ->
-                [ viewButton "ADMIN"
+                [ viewButton "ADMIN" (Msg Nop)
                 , viewVerticalPadding
                 ]
         )
@@ -197,13 +202,19 @@ durationAnimationTransition =
     240
 
 
-viewButton text =
+type ButtonAction msg
+    = Href String
+    | Msg msg
+
+
+viewButton text action =
     Html.Styled.a
-        [ Html.Styled.Attributes.css
+        ([ Html.Styled.Attributes.css
             [ Css.paddingLeft (Css.px 24)
             , Css.paddingRight (Css.px 24)
             , Css.paddingTop (Css.px 16)
             , Css.paddingBottom (Css.px 16)
+            , Css.cursor Css.pointer
             , Css.display Css.inlineBlock
             , Css.borderRadius (Css.px 8)
             , Css.backgroundColor colorButton
@@ -229,9 +240,18 @@ viewButton text =
                 , Css.Transitions.backgroundColor durationAnimationReaction
                 ]
             ]
-        , Html.Styled.Attributes.target "_blank"
-        , Html.Styled.Attributes.href "mailto:balebos@yiddishcalendar.com"
-        ]
+         ]
+            ++ (case action of
+                    Href href ->
+                        [ Html.Styled.Attributes.target "_blank"
+                        , Html.Styled.Attributes.href href
+                        ]
+
+                    Msg msg ->
+                        [ Html.Styled.Events.onClick msg
+                        ]
+               )
+        )
         [ Html.Styled.text text ]
 
 
