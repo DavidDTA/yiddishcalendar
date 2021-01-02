@@ -1,0 +1,12 @@
+#! /bin/bash
+
+set -e
+
+workspace=build/scripts/publish
+version=$(date -u +%Y%m%d-%H%M%S)
+version_files=${workspace}/${version}
+mkdir -p "${version_files}"
+cp -r src/static/* "${version_files}"
+elm make src/elm/Main.elm --optimize --output="${version_files}/-/index.js"
+bucket=$(scripts/config bucket)
+scripts/gsutil cp -r "${version_files}" "gs://${bucket}"

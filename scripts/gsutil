@@ -1,0 +1,17 @@
+#! /bin/bash
+
+set -e
+
+workdir=build/scripts/gsutil
+home=${workdir}/home
+zipfile=${workdir}/gsutil.tar.gz
+gsutil_bin=${workdir}/gsutil/gsutil
+mkdir -p ${home}
+if [ ! -f "${gsutil_bin}" ]; then
+  curl -L https://storage.googleapis.com/pub/gsutil.tar.gz >${zipfile}
+  tar xfv ${zipfile} -C ${workdir}
+fi
+if [ ! -f "${home}/.boto" ]; then
+  HOME=${home} ${gsutil_bin} config -b
+fi
+HOME=${home} ${gsutil_bin} $@

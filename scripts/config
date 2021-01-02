@@ -1,0 +1,10 @@
+#! /bin/bash
+
+set -e
+
+mkdir -p build/scripts/config
+if [ ! -f "build/scripts/config/$1" ]; then
+  read -p "Enter bucket name: "
+  echo $REPLY > build/scripts/config/$1
+fi
+cat build/scripts/config/$1
