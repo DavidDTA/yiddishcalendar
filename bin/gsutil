@@ -2,7 +2,7 @@
 
 set -e
 
-workdir=build/scripts/gsutil
+workdir=build/bin/gsutil
 home=${workdir}/home
 zipfile=${workdir}/gsutil.tar.gz
 gsutil_bin=${workdir}/gsutil/gsutil
