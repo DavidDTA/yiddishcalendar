@@ -2,11 +2,13 @@
 
 set -e
 
+yarn_bin=$(bin/yarn-bin)
+elm_bin=${yarn_bin}/elm
 workspace=build/bin/publish
 version=$(date -u +%Y%m%d-%H%M%S)
 version_files=${workspace}/${version}
 mkdir -p "${version_files}"
 cp -r src/static/* "${version_files}"
-elm make src/elm/Main.elm --optimize --output="${version_files}/-/index.js"
+$elm_bin make src/elm/Main.elm --optimize --output="${version_files}/-/index.js"
 bucket=$(bin/config bucket)
 bin/gsutil cp -r "${version_files}" "gs://${bucket}"

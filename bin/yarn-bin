@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+yarnpkg install --frozen-lockfile --prefer-offline --silent
+yarnpkg bin

@@ -2,8 +2,11 @@
 
 set -e
 
+yarn_bin=$(bin/yarn-bin)
+elm_bin=${yarn_bin}/elm
+elm_live_bin=${yarn_bin}/elm-live
 workspace=build/bin/live
 rm -rf "${workspace}"
 mkdir -p "${workspace}"
 cp -r src/static/* "${workspace}"
-elm-live src/elm/Main.elm --open --dir="${workspace}" --port=8002 -- --output="${workspace}/-/index.js" --debug
+$elm_live_bin src/elm/Main.elm --path-to-elm=$elm_bin --open --dir="${workspace}" --port=8002 -- --output="${workspace}/-/index.js" --debug
