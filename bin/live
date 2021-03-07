@@ -9,4 +9,4 @@ workspace=build/bin/live
 rm -rf "${workspace}"
 mkdir -p "${workspace}"
 cp -r src/static/* "${workspace}"
-$elm_live_bin src/elm/Main.elm --path-to-elm=$elm_bin --open --dir="${workspace}" --port=8002 -- --output="${workspace}/-/index.js" --debug
+$elm_live_bin src/elm/Main.elm --path-to-elm=$elm_bin --open --dir="${workspace}" -- --output="${workspace}/-/index.js" --debug
